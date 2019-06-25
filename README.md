@@ -1,8 +1,11 @@
 # retropie-philips-cdi-tools
 I have added 2 programs.
+
 1- To set up the map structure to get philips cdi working in retropie with lr-mess
 (retropie_philips_cdi_setup.sh)
+
 2- Create Philips_CD-I gamelist.xml for Retropie from cdi.xml of lr-mame/lr-mess.
+( Retropie_Philips_CD-I_gamelist_creator.py)
 
 See below for more information:
 
