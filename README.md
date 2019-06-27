@@ -2,6 +2,20 @@
 
 I have added 2 programs.
 
+Dependencies : 
+
+These programs only works if RetroPie is installed on your computer.
+
+Also make sure you have installed the desired python-modules.
+
+Lr-mess has to be installed by the RetroPie-setup before using the scripts!
+
+Lr-mess is installable trough the experimental packages as source ! (3,5 hours for compilation is not unusual)
+
+After compilation mess_libretro.so is in /opt/retropie/libretrocores/lr-mess 
+
+Emulationstation is set to use this rom-map for lr-mess : /home/pi/RetroPie/roms/arcadia
+
 # retropie_philips_cdi_setup.sh
 
 Use :
