@@ -32,21 +32,6 @@ Philips_CD-I works best on a X86 computer.
 
 Preferable : do all instructions manually and read the text in the script carefully !!!!!!!!!!!!
 
-
-# Retropie_Philips_CD-I_gamelist_creator.py
-
-Use :
-
-Create Philips_CD-I gamelist.xml for Retropie from cdi.xml of lr-mame/lr-mess.
-
-When you use lr-mess for running Philips_CD-I you make use of shortnamed link files.
-
-This script converts the "good info" of cdi.xml from lr-mame/lr-mess to a useful retropie gamelist.xml.
-
-For now, only the "shortnames with path" and the "longnames discriptions" are converted. 
-
-You can read the script to find out more.
-
 Notes :
 
 VCD and VCD-games do not work ;
@@ -66,5 +51,21 @@ In addition, just using "mess" works better, but is too slow on Raspberry pi.
 Perhaps raspberry pi 4 will do.
 
 If so, i will try to make a script for that.
+
+# Retropie_Philips_CD-I_gamelist_creator.py
+
+Use :
+
+Create Philips_CD-I gamelist.xml for Retropie from cdi.xml of lr-mame/lr-mess.
+
+When you use lr-mess for running Philips_CD-I you make use of shortnamed link files.
+
+This script converts the "good info" of cdi.xml from lr-mame/lr-mess to a useful retropie gamelist.xml.
+
+For now, only the "shortnames with path" and the "longnames discriptions" are converted. 
+
+You can read the script to find out more.
+
+
 
 
