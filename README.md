@@ -2,7 +2,7 @@
 
 I have added 2 programs.
 
-Dependencies : 
+Dependencies for both scripts : 
 
 These programs only works if RetroPie is installed on your computer.
 
