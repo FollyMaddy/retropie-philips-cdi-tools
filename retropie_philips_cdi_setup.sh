@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Author : Folkert van der Meulen
-# Date   : 01/02/2019
+# Date   : 19/03/2020
 #
-# Copyright 2019 Folkert van der Meulen
+# Copyright 2020 Folkert van der Meulen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,67 +17,60 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 
-# ----- this script is tested only a few times, so use this at own risk ! --------
-# Preferable : do all instructions manually and read the text carefully !!!!!!!!!!!!
-
-# This script is made to make it possible to run Philips_CD-I "*.chd" images in lr-mess through libretro-retroarch in RetroPie
+# Use :
+# This script does the setup to make it possible to run Philips_CD-I "*.chd" images in lr-mess through libretro-retroarch in RetroPie
+# For now this is a patch to get it working without messing with the original scripts of RetroPie
+# The goal is to add Philips_CD-I in the original lr-mess.sh script from RetroPie
+ 
+# Note :
 # Philips_CD-I works on RPI-3 but is not very fast. 
-# Philips_CD-I works best on a X86 computer. 
+# Philips_CD-I works pretty good on the RPI-4 or a X86 computer.
 
+# Dependancies   :
+# This program only works if RetroPie is installed on your computer.
 # lr-mess has to be installed by the RetroPie-setup before using this script!
 # lr-mess is installable trough the experimental packages as source ! (3,5 hours for compilation is not unusual)
 # after compilation mess_libretro.so is in /opt/retropie/libretrocores/lr-mess 
 # Emulationstation is set to use this rom-map for lr-mess : /home/pi/RetroPie/roms/arcadia
 
-# A bit confusing, but keep this in mind :
-# lr-mess is part of lr-mame, so it uses some "mame-map" structure
-
-# There has to be a hash folder with the filename cdi.xml.
-# Create directories for cdi.xml :
-mkdir -p $HOME/RetroPie/BIOS/mame/hash
-# Pull only cdi.xml from github and place it in the directory $HOME/RetroPie/BIOS/mame/hash (if not already exists):
-#wget https://raw.githubusercontent.com/libretro/mame/master/hash/cdi.xml -P $HOME/RetroPie/BIOS/mame/hash
-
-# This program only works if RetroPie is installed on your computer.
 # How to run :
 # Make the program executable, dubbleclick and choose open in terminal.
 # Or run it from the terminal with : ./retropie_philips_cdi_setup.sh
-#
 
-if [ ! -f "$HOME/RetroPie/BIOS/mame/hash/cdi.xml" ]; then wget https://raw.githubusercontent.com/libretro/mame/master/hash/cdi.xml -P $HOME/RetroPie/BIOS/mame/hash; fi
+# ---This part is turned off, but kept in script for possible use in the future---
+# There has to be a hash folder with the filename cdi.xml.
+# Create directories for cdi.xml
+# and pull only cdi.xml from github and place it in the directory $HOME/RetroPie/BIOS/mame/hash (if not already exists):
+#mkdir -p $HOME/RetroPie/BIOS/mame/hash
+#if [ ! -f "$HOME/RetroPie/BIOS/mame/hash/cdi.xml" ]; then wget https://raw.githubusercontent.com/libretro/mame/master/hash/cdi.xml -P $HOME/RetroPie/BIOS/mame/hash; fi
 
+# Create directory-structure so lr-mess will find the BIOS "cdimono1.zip" and the CD-I "*.chd" images and the config file.
+mkdir -p $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg
+
+# Additional info about directory structure :
+# The "biosroms zip file" have to be carefully placed in : /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1.zip
 # The "cdrom images"(only CHD) have to be carefully placed in : /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1
 # For example :
 # /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/hotel mario (1994)(philips)(eu)[!].chd
-# And create a link to this file that is called hotmario.bin, and place in the same directory.
-# (look for the matching gamenames in cdi.xml )
+# And create a link to this file that is called hotmario.bin (or .chd), and place in the same directory.
+# Instead of a link it is also possible to make an empty text file called hotmario.bin (or .chd)
+# (look for the matching gamenames in /home/pi/RetroPie/BIOS/mame/hash/cdi.xml )
 # For example :
 # /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/hotmario.bin
 # ( Above map structure was working and the directory "Philips_CD-I" can be something else ).
-# Create directory-structure so lr-mess will find the BIOS "cdimono1.zip" and the CD-I "*.chd" images.
-mkdir -p $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1
+# very important : run the link or the text file (for example "hotmario.bin") from retropie, not the real image !!!!!
 
-# Normally the "biosroms" have to be carefully placed in : /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1.zip
-# A better alternative is to use the RetroPie filestructure and place a link in /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip
-# and place the bios in $HOME/RetroPie/BIOS/cdimono1.zip .
-# A dummy bios file is created in $HOME/RetroPie/BIOS if there is no filename called cdimono1.zip 
-if [ ! -f "$HOME/RetroPie/BIOS/cdimono1.zip" ]; then touch mkdir $HOME/RetroPie/BIOS/cdimono1/cdimono1.zip; fi
-echo '!!!!!!!!!!!!!!! If a dummy bios file is written, overwrite the dummy bios file with the real bios file !!!!!!!!!!!!!!!'
-
-# A link to the bios file is created in /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1 (if not already exists)
-# So the bios file can be placed in the normal BIOS directory $HOME/RetroPie/BIOS
-if [ ! -f "$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip" ]; then ln -s $HOME/RetroPie/BIOS/cdimono1.zip $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip; fi
-
-## very important : run the link (for example "arcadecl.bin") from retropie, not the real image !!!!!
-
-# after the first run, the settingsfiles are edited(*1) or created(*2) !!! (you did see the Philips_CD-I logo but the mouse did not work)
+# after the first run, the settingsfiles are edited(*1) or created(*2)(if not existing) !!! (you did see the Philips_CD-I logo but the mouse did not work)
 # Important, there are 2 setting files we want to edit :
 # 1 - /opt/retropie/configs/all/retroarch-core-options.cfg
 # 2 - $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/cdimono1.cfg
 
 # settingsfile 1 :
+# It's not recommended to add mouse for now
+# It works partly or it does not work at all
+# So this is work in progress !!!
+#
 # In retroarch-core-options.cfg manually add (not in this script yet): 
 # mame_mouse_enable = "enabled"
 # (left-mouse clicking works now "out of box", right-mouse clicking does not work)
@@ -117,14 +110,69 @@ if [ ! -f "$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip" ]; th
 # The right-mouse button can only be assigned to the joystick or keyboard. Mouse seems to fail (i think a bug in lr-mess)
 # Made a mistake with setting up the "machine inputs" ? -> just enter again and hold a button longer and then it says "none" ,
 # or just delete your settings file.
+#
+# settingsfile 2 is now created here, so you don't have to make your own settings discribed above
+# full screen is added and 2 keyboard buttons associated
+cat >$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/cdimono1.cfg << _EOF_
+﻿<?xml version="1.0"?>
+<!-- This file is autogenerated; comments and unknown tags will be stripped -->
+<mameconfig version="10">
+    <system name="cdimono1">
+        <video>
+            <target index="0" view="Main Screen Standard (4:3)" />
+        </video>
+        <input>
+            <port tag=":slave_hle:MOUSEBTN" type="P1_BUTTON1" mask="1" defvalue="0">
+                <newseq type="standard">
+                    KEYCODE_Z JOYCODE_1_BUTTON2
+                </newseq>
+            </port>
+            <port tag=":slave_hle:MOUSEBTN" type="P1_BUTTON2" mask="2" defvalue="0">
+                <newseq type="standard">
+                    KEYCODE_X JOYCODE_1_BUTTON1
+                </newseq>
+            </port>
+        </input>
+        <image_directories>
+            <device instance="cdrom" directory="$HOME" />
+        </image_directories>
+    </system>
+</mameconfig>
+_EOF_
 
-### below is extra info over how to create chd files from bin/cue :
-## install mame-tools:
+# below is extra info over how to create chd files from bin/cue :
+# install mame-tools:
 # sudo apt-get install mame-tools
-## cd to your path with game files
-## For example do :
-## chdman createcd -o "Arcade Classics (E)(CD-i).chd" -i "Arcade Classics (E)(CD-i).cue"
-## get the right name or check it from the cdi.xml, it seemed to be : "arcade classics (1996)(namco - philips)(eu)[!][compilation]"
-## rename the file to arcade classics (1996)(namco - philips)(eu)[!][compilation].chd
-## create a link and rename it to arcadecl.bin (see also in cdi.xml) (.bin is used to let detect the filename in emulationstation. If desirable it can be somthing else.))
-
+# cd to your path with game files
+# For example do :
+# chdman createcd -o "Arcade Classics (E)(CD-i).chd" -i "Arcade Classics (E)(CD-i).cue"
+# get the right name or check it from the cdi.xml, it seemed to be : "arcade classics (1996)(namco - philips)(eu)[!][compilation]"
+# rename the file to arcade classics (1996)(namco - philips)(eu)[!][compilation].chd
+# create a link and rename it to arcadecl.bin (see also in cdi.xml) (.bin is used to let detect the filename in emulationstation. If desirable it can be somthing else.))
+#
+#this part makes the shortnamed "text" files, which can be run from RetroPie.
+#if the shortnamed file is opened as text file there is info about the .chd filname you have to create.
+#set ^ as delimiter before "software name" and combine all data of one title, read the delimiter with -d \^
+#set % as delimiter before "disk name" and before "sha1" for cutting out "disk name"
+cat $HOME/RetroPie/BIOS/mame/hash/cdi.xml | sed s/software\ name/\^software\ name/g | sed s/disk\ name/\%disk\ name/g |  sed s/sha1/\%sha1/g | while read -d \^ LINE
+do
+   #extract data from possible working TOSEC titles
+   #not supported titles, clones and baddumps are skipped 
+   if  [[ "$LINE" != *supported* ]] && [[ "$LINE" != *cloneof* ]] && [[ "$LINE" == *TOSEC* ]] && [[ "$LINE" != *baddump* ]] && [[ "$LINE" != *xml* ]]
+   then
+       software_name=$(echo $LINE | cut -d'"' -f 2)     
+       touch $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
+       disk_name=$(echo $LINE | cut -d'%' -f 2 | cut -d'"' -f 2) 
+       if  [[ "$disk_name" != *1\ of* ]]
+       then
+         echo Create the following .chd file from \(.cue\/.bin\) files with the same name and place this file in this directory : > $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
+         echo $disk_name.chd >> $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
+       else
+         echo Create the following .chd file from \(.cue\/.bin\) files with the same name and place this file in this directory : > $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
+         echo $disk_name.chd >> $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
+         echo ------------------------------------------------------------------------------------------- >> $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
+         echo this is a multi-disc title, check the cdi.xml for more info >> $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
+         echo above name is for the first disk of the title only >> $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin        
+       fi
+  fi  
+done
