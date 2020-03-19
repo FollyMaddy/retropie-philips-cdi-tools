@@ -26,31 +26,38 @@ It will set up the map structure to get philips cdi working in retropie with lr-
 
 Philips_CD-I works on RPI-3 but is not very fast. 
 
-Philips_CD-I works best on a X86 computer. 
+Philips_CD-I works best on RPI-4 or an X86 computer. 
 
------ this script is tested only a few times, so use this at own risk ! --------
-
-Preferable : do all instructions manually and read the text in the script carefully !!!!!!!!!!!!
 
 Notes :
 
-VCD and VCD-games do not work ;
+VCD-video/DVC-video and VCD-games/DVC-games do not work ;
 
-Right mouse button does not work. (work in progress for the libretro team)
+There is no mouse support.
 
-Extra info about creating .chd files and mouse settings are in the script.
+Extra info about creating .chd files and mouse settings (if possible) are in the script.
 
 So carefully read the script !
 
-Perhaps, later on, i will try to make a better script.
+added in 2020 Version :
+
+*full-screen
+
+*button associations to keyboard
+
+*creation of short-name files necessary to load cd-i .chd files
+
+*short-named files contain info about the .chd files to be created (open as textfile)
+
 
 ps.
 
-In addition, just using "mess" works better, but is too slow on Raspberry pi.
+In addition, just using "mess" can work better, but is too slow on Raspberry pi.
 
 Perhaps raspberry pi 4 will do.
 
-If so, i will try to make a script for that.
+(not tested for now)
+
 
 # Retropie_Philips_CD-I_gamelist_creator.py
 
