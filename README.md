@@ -43,7 +43,9 @@ added in 2020 Version :
 
 *full-screen
 
-*button associations to keyboard
+*full mouse support
+
+*joystick button associations for keyboard, mouse and eventually joystick
 
 *creation of short-name files necessary to load cd-i .chd files
 
