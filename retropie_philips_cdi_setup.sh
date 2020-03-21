@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Author : Folkert van der Meulen
-# Date   : 19/03/2020
+# Date   : 21/03/2020
 #
 # Copyright 2020 Folkert van der Meulen
 #
@@ -30,7 +30,9 @@
 # Dependancies   :
 # This program only works if RetroPie is installed on your computer.
 # lr-mess has to be installed by the RetroPie-setup before using this script!
-# lr-mess is installable trough the experimental packages as source ! (3,5 hours for compilation is not unusual)
+# lr-mess is installable trough the experimental packages as source ! 
+# On the RPI-3, 3,5 hours for compilation-time is not unusual
+# Not recommended but to have an idea of compilation-time on a X86 single core 1,6 Ghz, 11 hours compilation-time is not unusual !
 # after compilation mess_libretro.so is in /opt/retropie/libretrocores/lr-mess 
 # Emulationstation is set to use this rom-map for lr-mess : /home/pi/RetroPie/roms/arcadia
 
@@ -49,37 +51,45 @@
 mkdir -p $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg
 
 # Additional info about directory structure :
-# The "biosroms zip file" have to be carefully placed in : /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1.zip
+# The "biosroms" can be placed in (not recommended if other systems are added) : /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1.zip
+# The "biosroms" can also be in : /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip
+# A better alternative is to use the RetroPie filestructure and place a link in /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip
+# Above link has to link to the bios in $HOME/RetroPie/BIOS/cdimono1.zip .
+# A dummy bios file is created in $HOME/RetroPie/BIOS if there is no filename called cdimono1.zip 
+#!!!!!!!!!!!!!!! If a dummy bios file is written, overwrite the dummy bios file with the real bios file !!!!!!!!!!!!!!!
+if [ ! -f "$HOME/RetroPie/BIOS/cdimono1.zip" ]; then touch mkdir $HOME/RetroPie/BIOS/cdimono1/cdimono1.zip; fi
+#
+# A link to the bios file is created in /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1 (if not already exists)
+# So the bios file can be placed in the normal BIOS directory $HOME/RetroPie/BIOS
+if [ ! -f "$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip" ]; then ln -s $HOME/RetroPie/BIOS/cdimono1.zip $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip; fi
+#
 # The "cdrom images"(only CHD) have to be carefully placed in : /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1
 # For example :
 # /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/hotel mario (1994)(philips)(eu)[!].chd
 # And create a link to this file that is called hotmario.bin (or .chd), and place in the same directory.
-# Instead of a link it is also possible to make an empty text file called hotmario.bin (or .chd)
-# (look for the matching gamenames in /home/pi/RetroPie/BIOS/mame/hash/cdi.xml )
+# Instead of a link it is also possible to make text file called hotmario.bin (or .chd)
+# The text file may contain text but it is not nessecary !
+# To help a bit : this script adds short-named text files for the possible working titles
+# but if you want to look for the matching game-names see in /home/pi/RetroPie/BIOS/mame/hash/cdi.xml 
 # For example :
 # /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/hotmario.bin
 # ( Above map structure was working and the directory "Philips_CD-I" can be something else ).
 # very important : run the link or the text file (for example "hotmario.bin") from retropie, not the real image !!!!!
 
-# after the first run, the settingsfiles are edited(*1) or created(*2)(if not existing) !!! (you did see the Philips_CD-I logo but the mouse did not work)
+# Parts of this info are a bit obsolete, because the configs are now updated by this script.
+# But all the info is kept in the script for educational purposes
+#
+# After the first run, the settingsfiles are edited(*1) or created(*2)(if not existing you did see the Philips_CD-I logo but the controls did not work properly)
 # Important, there are 2 setting files we want to edit :
 # 1 - /opt/retropie/configs/all/retroarch-core-options.cfg
-# 2 - $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/cdimono1.cfg
-
+# 2 - /opt/retropie/configs/all/retroarch.cfg
+# 3 - $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/cdimono1.cfg
+#
 # settingsfile 1 :
-# It's not recommended to add mouse for now
-# It works partly or it does not work at all
-# So this is work in progress !!!
-#
-# In retroarch-core-options.cfg manually add (not in this script yet): 
-# mame_mouse_enable = "enabled"
-# (left-mouse clicking works now "out of box", right-mouse clicking does not work)
-# ------------------------------------------------------------------------------------------------------------------
-# ((if not using Retropie and only using retroarch, retroarch-core-options.cfg is in : /home/pi/.config/retroarch ))
-# ------------------------------------------------------------------------------------------------------------------
-# All other option are automatically created when you executed a mame rom before.
-# When you read it, you think it should be edited, but this does not have to be edited, lr-mame boots ok automatically, if the crucial things are ok.
-#
+# In retroarch-core-options.cfg
+# The mame options are automatically created when you have execute a mame rom before.
+# When you read the options, you think it should be edited, but this does not have to be edited, lr-mess boots ok automatically, if the crucial things are ok.
+# The mame options look like this :
 # mame_alternate_renderer = "disabled"
 # mame_altres = "640x480"
 # mame_auto_save = "disabled"
@@ -98,10 +108,49 @@ mkdir -p $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg
 # mame_throttle = "disabled"
 # mame_write_config = "disabled"
 #
-# all other options will be ignored en set automatically when a CDI image is loaded or do not mather.
+# most options will be ignored en set automatically when a CDI image is loaded and do not matter.
 # (tested multiple options like media_type,softmilst, boot_to_bios and boot_from_cli , but there was no difference).
+#
+# (20-03-2020) After 1,5 years it seems like ik found a solution to get the mouse fully working
+# If settings are not good, the mouse and mouse-buttons will not work or work partly
+# This is due to the fact that Retroarch and lr-mess both have config files
+# In a perfect situation lr-mess should only depend upon Retroarch, but that's not the case at this moment
+# So we have to combine solutions to get the mouse fully working
+#
+# In retroarch-core-options.cfg we have to add : mame_mouse_enable = "enabled" to get mouse directions to work
+check_mame_mouse=$(cat /opt/retropie/configs/all/retroarch-core-options.cfg)
+if  [[ "$check_mame_mouse" == *mame_mouse_enable* ]]
+then 
+# enable mame_mouse_enable line 
+sed -i s/mame\_mouse\_enable\ \=\ \"disabled\"/mame\_mouse\_enable\ \=\ \"enabled\"/g /opt/retropie/configs/all/retroarch-core-options.cfg
+else
+# add and enable mame_mouse_enable on the last line in the file
+# this should always work, also if there are no mame options in the file yet
+echo mame\_mouse\_enable\ \=\ \"enabled\" >> /opt/retropie/configs/all/retroarch-core-options.cfg
+fi
+# Due to an issue in lr-mess we can only assign one working mouse button in the lr-mess "settingsfile 3" 
+# But actually we want both mouse buttons to work
+# That's why we don't assign mouse buttons button in the lr-mess "settingsfile 3" at all !!!!
 
 # settingsfile 2 :
+# In order to get all mouse buttons working we will assign the mouse buttons in the retroach.cfg as joystick buttons !!!!
+# This solution worked for me :)
+check_retroarch_mouse_button_a=$(cat /opt/retropie/configs/all/retroarch.cfg)
+if  [[ "$check_retroarch_mouse_button_a" != *input_player1_a_mbtn* ]]
+then 
+# adding "input_player1_a_mbtn" line above  "input_player1_a" line
+sed -i s/input\_player1\_a\ \=/input\_player1\_a\_mbtn\ \=\ \"1\"\\ninput\_player1\_a\ \=/g /opt/retropie/configs/all/retroarch.cfg
+fi
+check_retroarch_mouse_button_b=$(cat /opt/retropie/configs/all/retroarch.cfg)
+if  [[ "$check_retroarch_mouse_button_b" != *input_player1_b_mbtn* ]]
+then 
+# adding "input_player1_b_mbtn" line above  "input_player1_b" line
+sed -i s/input\_player1\_b\ \=/input\_player1\_b\_mbtn\ \=\ \"2\"\\ninput\_player1\_b\ \=/g /opt/retropie/configs/all/retroarch.cfg
+fi
+
+# Parts of this info are a bit obsolete, because the configs are now updated by this script.
+# But all the info is kept in the script for educational purposes
+# settingsfile 3 :
 # settings can be made from within the "lr-mess qui" just use the "tab" button.
 # use "cursors" and "enter" to go though the settings.
 # with "enter" you can change settings.
@@ -111,8 +160,9 @@ mkdir -p $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg
 # Made a mistake with setting up the "machine inputs" ? -> just enter again and hold a button longer and then it says "none" ,
 # or just delete your settings file.
 #
-# settingsfile 2 is now created here, so you don't have to make your own settings discribed above
-# full screen is added and 2 keyboard buttons associated
+# settingsfile 3 is now created here, so you don't have to make your own settings discribed above
+# full screen is added and 2 joystick buttons assigned 
+# (if the keyboard, mouse-buttons or a joystick is assigned in retroarch.cfg all devices should work now)  
 cat >$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/cdimono1.cfg << _EOF_
 ﻿<?xml version="1.0"?>
 <!-- This file is autogenerated; comments and unknown tags will be stripped -->
@@ -124,12 +174,12 @@ cat >$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/cdimono1.cfg << 
         <input>
             <port tag=":slave_hle:MOUSEBTN" type="P1_BUTTON1" mask="1" defvalue="0">
                 <newseq type="standard">
-                    KEYCODE_Z JOYCODE_1_BUTTON2
+                    JOYCODE_1_BUTTON1
                 </newseq>
             </port>
             <port tag=":slave_hle:MOUSEBTN" type="P1_BUTTON2" mask="2" defvalue="0">
                 <newseq type="standard">
-                    KEYCODE_X JOYCODE_1_BUTTON1
+                    JOYCODE_1_BUTTON2
                 </newseq>
             </port>
         </input>
