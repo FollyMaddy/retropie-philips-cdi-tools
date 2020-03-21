@@ -54,11 +54,11 @@ added in 2020 Version :
 
 ps.
 
-In addition, just using "mess" can work better, but is too slow on Raspberry pi.
+In addition, just using "mess" is also an option, but is too slow on Raspberry pi.
 
-Perhaps raspberry pi 4 will do.
+Perhaps raspberry pi 4 will do but is not tested for now.
 
-(not tested for now)
+After the last update all is working fine with lr-mess, so there is no need to make a script for mess.
 
 
 # Retropie_Philips_CD-I_gamelist_creator.py
