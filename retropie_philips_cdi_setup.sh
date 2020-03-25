@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Author : Folkert van der Meulen
-# Date   : 21/03/2020
+# Date   : 25/03/2020
 #
 # Copyright 2020 Folkert van der Meulen
 #
@@ -33,7 +33,7 @@
 # lr-mess is installable trough the experimental packages as source ! 
 # On the RPI-3, 3,5 hours for compilation-time is not unusual
 # Not recommended but to have an idea of compilation-time on a X86 single core 1,6 Ghz, 11 hours compilation-time is not unusual !
-# after compilation mess_libretro.so is in /opt/retropie/libretrocores/lr-mess 
+# After compilation mess_libretro.so is in /opt/retropie/libretrocores/lr-mess 
 # Emulationstation is set to use this rom-map for lr-mess : /home/pi/RetroPie/roms/arcadia
 
 # How to run :
@@ -74,18 +74,19 @@ if [ ! -f "$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip" ]; th
 # For example :
 # /home/pi/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/hotmario.bin
 # ( Above map structure was working and the directory "Philips_CD-I" can be something else ).
-# very important : run the link or the text file (for example "hotmario.bin") from retropie, not the real image !!!!!
+# very important : run the link or the text file (for example "hotmario.bin") from retropie, not the real .chd image !!!!!
 
 # Parts of this info are a bit obsolete, because the configs are now updated by this script.
 # But all the info is kept in the script for educational purposes
 #
-# After the first run, the settingsfiles are edited(*1) or created(*2)(if not existing you did see the Philips_CD-I logo but the controls did not work properly)
-# Important, there are 2 setting files we want to edit :
+# After the first run, the config files are edited(*1) or created(*3)(*4)(if not existing you did see the Philips_CD-I logo but the controls did not work properly)
+# We want to edit these setting files :
 # 1 - /opt/retropie/configs/all/retroarch-core-options.cfg
-# 2 - /opt/retropie/configs/all/retroarch.cfg
+# 2 - /opt/retropie/configs/arcadia/retroarch.cfg
 # 3 - $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/cdimono1.cfg
+# 4 - $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/default.cfg
 #
-# settingsfile 1 :
+# config file 1 :
 # In retroarch-core-options.cfg
 # The mame options are automatically created when you have execute a mame rom before.
 # When you read the options, you think it should be edited, but this does not have to be edited, lr-mess boots ok automatically, if the crucial things are ok.
@@ -128,29 +129,45 @@ else
 # this should always work, also if there are no mame options in the file yet
 echo mame\_mouse\_enable\ \=\ \"enabled\" >> /opt/retropie/configs/all/retroarch-core-options.cfg
 fi
-# Due to an issue in lr-mess we can only assign one working mouse button in the lr-mess "settingsfile 3" 
+# Due to an issue in lr-mess we can only assign one working mouse button in the lr-mess "config file 3" 
 # But actually we want both mouse buttons to work
-# That's why we don't assign mouse buttons button in the lr-mess "settingsfile 3" at all !!!!
+# That's why we don't assign mouse buttons button in the lr-mess "config file 3" at all !!!!
+# We assign the mouse buttons as joystick buttons in "config file 2"
 
-# settingsfile 2 :
-# In order to get all mouse buttons working we will assign the mouse buttons in the retroach.cfg as joystick buttons !!!!
-# This solution worked for me :)
-check_retroarch_mouse_button_a=$(cat /opt/retropie/configs/all/retroarch.cfg)
-if  [[ "$check_retroarch_mouse_button_a" != *input_player1_a_mbtn* ]]
+# config file 2 :
+# In an earlier version i patched /opt/retropie/configs/all/retroarch.cfg
+# A better option is to patch /opt/retropie/configs/arcadia/retroarch.cfg
+# In order to get all mouse buttons working, we will assign the mouse buttons in the retroach.cfg as joystick buttons !!!
+# Something more has to be added to get the mouse movements work properly, so they don't get stuck anymore !!!
+# (25-03-2020) The solution is to add an input_grab_mouse_toggle key
+# I decided to use the "right ctrl" key 
+# If the input_grab_mouse_toggle key is pressed, 
+# the mouse movements become relative to the emulation window !!! 
+# To get more clear :
+# After pressing "right-ctrl" the mouse movement are no longer relative to the host enviroment,
+# so the movements don't get stuck anymore !!!
+check_retroarch=$(cat /opt/retropie/configs/arcadia/retroarch.cfg)
+retroarch_config="/opt/retropie/configs/arcadia/retroarch.cfg"
+if  [[ "$check_retroarch" != *input_player1_b_mbtn* ]]
 then 
-# adding "input_player1_a_mbtn" line above  "input_player1_a" line
-sed -i s/input\_player1\_a\ \=/input\_player1\_a\_mbtn\ \=\ \"1\"\\ninput\_player1\_a\ \=/g /opt/retropie/configs/all/retroarch.cfg
+# adding 'input_player1_b_mbtn = "2"' line  below info line
+sed -i s/line/line\\ninput\_player1\_b\_mbtn\ \=\ \"2\"/g  $retroarch_config
 fi
-check_retroarch_mouse_button_b=$(cat /opt/retropie/configs/all/retroarch.cfg)
-if  [[ "$check_retroarch_mouse_button_b" != *input_player1_b_mbtn* ]]
+if  [[ "$check_retroarch" != *input_player1_a_mbtn* ]]
 then 
-# adding "input_player1_b_mbtn" line above  "input_player1_b" line
-sed -i s/input\_player1\_b\ \=/input\_player1\_b\_mbtn\ \=\ \"2\"\\ninput\_player1\_b\ \=/g /opt/retropie/configs/all/retroarch.cfg
+# adding 'input_player1_a_mbtn = "1"' line below info line
+sed -i s/line/line\\ninput\_player1\_a\_mbtn\ \=\ \"1\"/g $retroarch_config
+fi
+if  [[ "$check_retroarch" != *input_grab_mouse_toggle* ]]
+then 
+# adding 'input_grab_mouse_toggle = rctrl' line  below info line
+sed -i s/line/line\\ninput\_grab\_mouse\_toggle\ \=\ rctrl/g $retroarch_config
 fi
 
 # Parts of this info are a bit obsolete, because the configs are now updated by this script.
+# In the config file 4 the User Interface of lr-mess is turned off for Philips_CD-I
 # But all the info is kept in the script for educational purposes
-# settingsfile 3 :
+# config file 3 :
 # settings can be made from within the "lr-mess qui" just use the "tab" button.
 # use "cursors" and "enter" to go though the settings.
 # with "enter" you can change settings.
@@ -160,7 +177,7 @@ fi
 # Made a mistake with setting up the "machine inputs" ? -> just enter again and hold a button longer and then it says "none" ,
 # or just delete your settings file.
 #
-# settingsfile 3 is now created here, so you don't have to make your own settings discribed above
+# config file 3 is now created here, so you don't have to make your own settings discribed above
 # full screen is added and 2 joystick buttons assigned 
 # (if the keyboard, mouse-buttons or a joystick is assigned in retroarch.cfg all devices should work now)  
 cat >$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/cdimono1.cfg << _EOF_
@@ -190,12 +207,41 @@ cat >$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/cdimono1.cfg << 
 </mameconfig>
 _EOF_
 
+# config file 4 :
+# Config file for general input and user interface input 
+# Turn off the "User Interface" from lr-mess for Philips_CD-I by suppressing the key's "tab" and "esc" in :
+# $HOME/Desktop/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/default.cfg
+# These keys can get in the way of hotkey or hotkey binds from retroarch
+# If you want to undo this, just restore your backup of default.cfg or just delete the file
+# create a patched default.cfg file
+cat >$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/mame/cfg/default.cfg << _EOF_
+﻿<?xml version="1.0"?>
+<!-- This file is autogenerated; comments and unknown tags will be stripped -->
+<mameconfig version="10">
+    <system name="default">
+        <input>
+            <port type="UI_CONFIGURE">
+                <newseq type="standard">
+                    NONE
+                </newseq>
+            </port>
+            <port type="UI_CANCEL">
+                <newseq type="standard">
+                    NONE
+                </newseq>
+            </port>
+        </input>
+    </system>
+</mameconfig>
+_EOF_
+
 # below is extra info over how to create chd files from bin/cue :
 # install mame-tools:
 # sudo apt-get install mame-tools
 # cd to your path with game files
 # For example do :
 # chdman createcd -o "Arcade Classics (E)(CD-i).chd" -i "Arcade Classics (E)(CD-i).cue"
+# (tip: open the .cue as text to see if the right .bin is associated in the .cue file)
 # get the right name or check it from the cdi.xml, it seemed to be : "arcade classics (1996)(namco - philips)(eu)[!][compilation]"
 # rename the file to arcade classics (1996)(namco - philips)(eu)[!][compilation].chd
 # create a link and rename it to arcadecl.bin (see also in cdi.xml) (.bin is used to let detect the filename in emulationstation. If desirable it can be somthing else.))
