@@ -20,9 +20,9 @@
 
 # Use :
 # This script does the setup to make it possible to run Philips_CD-I "*.chd" images in lr-mess through libretro-retroarch in RetroPie
-# For now this is a patch to get it working without messing with the original scripts of RetroPie
-# The goal is to add Philips_CD-I in the original lr-mess.sh script from RetroPie
- 
+# For now this is a patch to get it working without messing with the original setup-scripts of RetroPie
+# The goal is to add Philips_CD-I in the original  lr-mess.sh setup-script from RetroPie
+
 # Note :
 # Philips_CD-I works on RPI-3 but is not very fast. 
 # Philips_CD-I works pretty good on the RPI-4 or a X86 computer.
@@ -88,7 +88,7 @@ if [ ! -f "$HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/cdimono1.zip" ]; th
 #
 # config file 1 :
 # In retroarch-core-options.cfg
-# The mame options are automatically created when you have execute a mame rom before.
+# The mame options are automatically created when you have executed a mame rom before.
 # When you read the options, you think it should be edited, but this does not have to be edited, lr-mess boots ok automatically, if the crucial things are ok.
 # The mame options look like this :
 # mame_alternate_renderer = "disabled"
@@ -146,6 +146,7 @@ fi
 # To get more clear :
 # After pressing "right-ctrl" the mouse movement are no longer relative to the host enviroment,
 # so the movements don't get stuck anymore !!!
+# When you press "right-ctrl" again, the mouse pointer of the host enviroment becomes visible, then you can see why it gets stuck !
 check_retroarch=$(cat /opt/retropie/configs/arcadia/retroarch.cfg)
 retroarch_config="/opt/retropie/configs/arcadia/retroarch.cfg"
 if  [[ "$check_retroarch" != *input_player1_b_mbtn* ]]
@@ -174,7 +175,7 @@ fi
 # leaving the emulator with "esc" saves the configuration file.
 # setup your joystick etc in "machine inputs".
 # The right-mouse button can only be assigned to the joystick or keyboard. Mouse seems to fail (i think a bug in lr-mess)
-# Made a mistake with setting up the "machine inputs" ? -> just enter again and hold a button longer and then it says "none" ,
+# If you made a mistake with setting up a "machine input" ? -> just enter again and hold a button longer and then it says "none" ,
 # or just delete your settings file.
 #
 # config file 3 is now created here, so you don't have to make your own settings discribed above
@@ -261,10 +262,10 @@ do
        disk_name=$(echo $LINE | cut -d'%' -f 2 | cut -d'"' -f 2) 
        if  [[ "$disk_name" != *1\ of* ]]
        then
-         echo Create the following .chd file from \(.cue\/.bin\) files with the same name and place this file in this directory : > $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
+         echo Create the following .chd file from \(.cue\/.bin\) files and place this file in this directory and rename it to : > $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
          echo $disk_name.chd >> $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
        else
-         echo Create the following .chd file from \(.cue\/.bin\) files with the same name and place this file in this directory : > $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
+         echo Create the following .chd file from \(.cue\/.bin\) files and place this file in this directory and rename it to : > $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
          echo $disk_name.chd >> $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
          echo ------------------------------------------------------------------------------------------- >> $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
          echo this is a multi-disc title, check the cdi.xml for more info >> $HOME/RetroPie/roms/arcadia/Philips_CD-I/cdimono1/$software_name.bin
