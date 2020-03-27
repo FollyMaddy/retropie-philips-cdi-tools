@@ -23,9 +23,21 @@
 # For now this is a patch to get it working without messing with the original setup-scripts of RetroPie
 # The goal is to add Philips_CD-I in the original  lr-mess.sh setup-script from RetroPie
 
-# Note :
+# Notes :
 # Philips_CD-I works on RPI-3 but is not very fast. 
 # Philips_CD-I works pretty good on the RPI-4 or a X86 computer.
+#
+# The mouse movements and all mouse-buttons work on a X86 with lubuntu 18.04.4 LTS, starting emulationstation from the X-windows.
+# Sad enough, at first mouse movements got stuck sometimes.
+# Fixed this by adding a mouse grab toggle key.
+# So when you are in the emulator press "right ctrl" to grab the mouse to match the emulation window !
+# Now it works perfect ! :)
+#
+# At first the mouse did not work on my RPI-4 with Raspbian buster.
+# I normally start emulationstation from the X-windows.
+# So in this situation the mouse does not work. (work in progress)
+# So i decided to configure my raspi-config to boot my RPI-4 into cli and start emulationstation from the cli.
+# In this situation the mouse worked perfect on the RPI-4 ! :), also there is no need to use the mouse grab toggle key. :)
 
 # Dependancies   :
 # This program only works if RetroPie is installed on your computer.
