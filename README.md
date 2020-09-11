@@ -43,7 +43,7 @@ added in 2020 Version :
 
 *full-screen
 
-*full mouse support and fixes ar implemented
+*full mouse support and fixes are implemented
 
 *joystick button associations for keyboard, mouse and eventually joystick
 
