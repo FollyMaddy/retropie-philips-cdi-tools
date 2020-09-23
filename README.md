@@ -1,3 +1,12 @@
+You can use this script if you use an old version of lr-mess !
+
+Due to changes in the new lr-mess this will not work, for now !
+
+Try this to get it working again :
+
+https://retropie.org.uk/forum/topic/27387/cd-i-does-not-want-to-load-after-updating-retropie/20
+
+
 # retropie-philips-cdi-tools
 
 I have added 2 programs.
