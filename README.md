@@ -6,6 +6,13 @@ Try this to get it working again :
 
 https://retropie.org.uk/forum/topic/27387/cd-i-does-not-want-to-load-after-updating-retropie/20
 
+Use the @valerino fork :
+
+https://retropie.org.uk/forum/topic/25576/new-scriptmodules-lr-vice-xvic-gsplus-proper-lr-mess-integration
+
+Or use my project :
+
+https://retropie.org.uk/forum/topic/29682/development-of-module-script-generator-for-lr-mess-and-mame-standalone
 
 # retropie-philips-cdi-tools
 
