@@ -1,6 +1,6 @@
 You can use this script if you use an old version of lr-mess !
 
-Due to changes in the new lr-mess this will not work, for now !
+Due to changes in the new lr-mess this will not work anymore !
 
 Try this to get it working again :
 
