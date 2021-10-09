@@ -1,18 +1,23 @@
-You can use this script if you use an old version of lr-mess !
+# Due to changes in the new lr-mess this will not work anymore !
 
-Due to changes in the new lr-mess this will not work anymore !
+# This repository is kept online for the knowledge regarding the configs,  because the mouse can be a problem with CDI.
 
-Try this to get it working again :
+Alternatives to get Philips CDI working :
 
-https://retropie.org.uk/forum/topic/27387/cd-i-does-not-want-to-load-after-updating-retropie/20
+Use my project and install `cdimono1`:
 
-Use the @valerino fork :
+https://retropie.org.uk/forum/topic/29682/development-of-module-script-generator-for-lr-mess-and-mame-standalone
+
+Or use the @valerino fork :
 
 https://retropie.org.uk/forum/topic/25576/new-scriptmodules-lr-vice-xvic-gsplus-proper-lr-mess-integration
 
-Or use my project :
 
-https://retropie.org.uk/forum/topic/29682/development-of-module-script-generator-for-lr-mess-and-mame-standalone
+Here you can read more about when the script stopped working :
+
+https://retropie.org.uk/forum/topic/27387/cd-i-does-not-want-to-load-after-updating-retropie/20
+
+
 
 # retropie-philips-cdi-tools
 
