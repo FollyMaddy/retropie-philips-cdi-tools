@@ -8,6 +8,12 @@ Use my project and install `cdimono1`:
 
 https://retropie.org.uk/forum/topic/29682/development-of-module-script-generator-for-lr-mess-and-mame-standalone
 
+On 21 Feb 2022 I added the knowledge as a patch from this script to above script :
+
+https://github.com/FollyMaddy/RetroPie-Share/commit/3832dd8b8f008da27d664d92ce425cd3295aa13b
+
+https://github.com/FollyMaddy/RetroPie-Share/commit/4df9e41769525342db9cb49148dd4d1fec680e22
+
 Or use the @valerino fork :
 
 https://retropie.org.uk/forum/topic/25576/new-scriptmodules-lr-vice-xvic-gsplus-proper-lr-mess-integration
